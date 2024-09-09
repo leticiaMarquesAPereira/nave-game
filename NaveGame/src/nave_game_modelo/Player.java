@@ -2,6 +2,8 @@ package nave_game_modelo;
 
 import java.awt.Image;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.ImageIcon;
 
@@ -10,6 +12,7 @@ public class Player {
 	private int x, y;
 	private int dx, dy;
 	private Image imagem;
+	private List <Tiro> tiros;
 	
 	private int altura, largura;
 	
@@ -17,11 +20,13 @@ public class Player {
 		
 		this.x = 100;
 		this.y = 100;
+		
+		tiros = new ArrayList<Tiro>();
 	}
 	
 	public void load() {
 		
-		ImageIcon referencia = new ImageIcon("res\\nave2.png");
+		ImageIcon referencia = new ImageIcon("res\\nave3.png");
 		imagem = referencia.getImage();
 		altura = imagem.getHeight(null);
 		largura = imagem.getWidth(null);
@@ -33,10 +38,18 @@ public class Player {
 		y += dy;
 	}
 	
+	public void tiroSimples() {
+		
+		this.tiros.add(new Tiro(x + (largura / 2), y));
+	}
+	
 	public void keyPressed(KeyEvent tecla) {
 		
 		int codigo = tecla.getKeyCode();
 		
+		if(codigo == KeyEvent.VK_A) {
+			tiroSimples();
+		}
 		if(codigo == KeyEvent.VK_UP) {
 			dy = -3;
 		}
@@ -80,6 +93,11 @@ public class Player {
 	public Image getImagem() {
 		return imagem;
 	}
+
+	public List<Tiro> getTiros() {
+		return tiros;
+	}
+	
 	
 	
 }
