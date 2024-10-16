@@ -22,8 +22,6 @@ public class Fase extends JPanel implements ActionListener {
 	private Timer timer;
 	private List<Inimigo_1> inimigo1;
 	private List<Estrela_1> estrela1;
-	private List<Estrela_2> estrela2;
-	private List<Estrela_3> estrela3;
 	private boolean emJogo;
 
 	public Fase() {
@@ -62,26 +60,12 @@ public class Fase extends JPanel implements ActionListener {
 	public void inicializaEstrela() {
 		
 		int coordenadas[] = new int[300];
-		int coordenadas2[] = new int[150];
-		int coordenadas3[] = new int[80];
 		estrela1 = new ArrayList<Estrela_1>();
-		estrela2 = new ArrayList<Estrela_2>();
-		estrela3 = new ArrayList<Estrela_3>();
 		
 		for(int i = 0; i < coordenadas.length; i++) {
 			int x = (int)(Math.random() * +510 - 160);
-			int y = (int)(Math.random() * -7000 - 546);
+			int y = (int)(Math.random() * -9000 + 400);
 			estrela1.add(new Estrela_1(x, y));
-		}
-		for(int i = 0; i < coordenadas2.length; i++) {
-			int x = (int)(Math.random() * +510 - 160);
-			int y = (int)(Math.random() * -7000 - 546);
-			estrela2.add(new Estrela_2(x, y));
-		}
-		for(int i = 0; i < coordenadas3.length; i++) {
-			int x = (int)(Math.random() * +510 - 160);
-			int y = (int)(Math.random() * -7000 - 546);
-			estrela3.add(new Estrela_3(x, y));
 		}
 	}
 	

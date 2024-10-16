@@ -14,7 +14,7 @@ public class Estrela_1 {
 	private boolean isVisivel;
 	
 	//private static final int ALTURA = 790;
-	private static double VELOCIDADE = 0.5;
+	private static int VELOCIDADE = 2;
 	
 	public Estrela_1(int x, int y) {
 		
@@ -58,7 +58,7 @@ public class Estrela_1 {
 		this.isVisivel = isVisivel;
 	}
 
-	public static double getVELOCIDADE() {
+	public static int getVELOCIDADE() {
 		return VELOCIDADE;
 	}
 
