@@ -2,20 +2,21 @@ package nave_game_modelo;
 
 import java.awt.Image;
 import java.awt.Rectangle;
+import java.util.Random;
 
 import javax.swing.ImageIcon;
 
-public class Tiro {
+public class Estrela_1 {
 	
 	private Image imagem;
 	private int x, y;
 	private int largura, altura;
 	private boolean isVisivel;
 	
-	//private static final int ALTURA = 300;
-	private static int VELOCIDADE = 5;
+	//private static final int ALTURA = 790;
+	private static double VELOCIDADE = 0.5;
 	
-	public Tiro(int x, int y) {
+	public Estrela_1(int x, int y) {
 		
 		this.x = x;
 		this.y = y;
@@ -24,7 +25,7 @@ public class Tiro {
 	
 	public void load() {
 		
-		ImageIcon referencia = new ImageIcon("res\\tiro3.png");
+		ImageIcon referencia = new ImageIcon("res\\estrelapequena2.png");
 		imagem = referencia.getImage();
 		
 		this.largura = imagem.getWidth(null);
@@ -33,15 +34,20 @@ public class Tiro {
 	
 	public void update() {
 		
-		this.y -= VELOCIDADE;
-		
-		if(this.y < 0) {
-			isVisivel = false;
+		if(this.y > 600) { 
+			
+			this.y = altura;
+			Random a = new Random();
+			int m = a.nextInt(600);
+			this.y = m + 1024;
+			Random r = new Random();
+			int n = r.nextInt(790);
+			this.x = n;
 		}
-	}
-	
-	public Rectangle getBounds() {
-		return new Rectangle (x, y, largura, altura);
+		else {
+			
+			this.y += VELOCIDADE;
+		}
 	}
 
 	public boolean isVisivel() {
@@ -52,7 +58,7 @@ public class Tiro {
 		this.isVisivel = isVisivel;
 	}
 
-	public static int getVELOCIDADE() {
+	public static double getVELOCIDADE() {
 		return VELOCIDADE;
 	}
 

@@ -21,6 +21,9 @@ public class Fase extends JPanel implements ActionListener {
 	private Player player;
 	private Timer timer;
 	private List<Inimigo_1> inimigo1;
+	private List<Estrela_1> estrela1;
+	private List<Estrela_2> estrela2;
+	private List<Estrela_3> estrela3;
 	private boolean emJogo;
 
 	public Fase() {
@@ -40,20 +43,48 @@ public class Fase extends JPanel implements ActionListener {
 		timer.start();
 		
 		inicializaInimigos();
+		inicializaEstrela();
 		emJogo = true;
 	}
 
 	public void inicializaInimigos() {
 		
-		int coordenadas[] = new int[50];
+		int coordenadas[] = new int[20];
 		inimigo1 = new ArrayList<Inimigo_1>();
 		
 		for(int i = 0; i < coordenadas.length; i++) {
-			int x = (int)(Math.random() * +510 + 30);
-			int y = (int)(Math.random() * -7000 - 546);
+			int x = (int)(Math.random() * +510 - 20);
+			int y = (int)(Math.random() * -5000 - 546);
 			inimigo1.add(new Inimigo_1(x, y));
 		}
 	}
+	
+	public void inicializaEstrela() {
+		
+		int coordenadas[] = new int[300];
+		int coordenadas2[] = new int[150];
+		int coordenadas3[] = new int[80];
+		estrela1 = new ArrayList<Estrela_1>();
+		estrela2 = new ArrayList<Estrela_2>();
+		estrela3 = new ArrayList<Estrela_3>();
+		
+		for(int i = 0; i < coordenadas.length; i++) {
+			int x = (int)(Math.random() * +510 - 160);
+			int y = (int)(Math.random() * -7000 - 546);
+			estrela1.add(new Estrela_1(x, y));
+		}
+		for(int i = 0; i < coordenadas2.length; i++) {
+			int x = (int)(Math.random() * +510 - 160);
+			int y = (int)(Math.random() * -7000 - 546);
+			estrela2.add(new Estrela_2(x, y));
+		}
+		for(int i = 0; i < coordenadas3.length; i++) {
+			int x = (int)(Math.random() * +510 - 160);
+			int y = (int)(Math.random() * -7000 - 546);
+			estrela3.add(new Estrela_3(x, y));
+		}
+	}
+	
 	public void paint(Graphics g) {
 
 		Graphics2D graficos = (Graphics2D) g;
@@ -61,6 +92,13 @@ public class Fase extends JPanel implements ActionListener {
 		if(emJogo == true) {
 			
 			graficos.drawImage(fundo, 0, 0, null);
+			
+			for (int p = 0; p < estrela1.size(); p++) {
+				Estrela_1 b = estrela1.get(p);
+				b.load();
+				graficos.drawImage(b.getImagem(), b.getX(), b.getY(), this);
+			}
+			
 			graficos.drawImage(player.getImagem(), player.getX(), player.getY(), this);
 
 			List<Tiro> tiros = player.getTiros();
@@ -89,6 +127,16 @@ public class Fase extends JPanel implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 
 		player.update();
+		
+		for(int p = 0; p < estrela1.size(); p++) {
+			Estrela_1 on = estrela1.get(p);
+			if(on.isVisivel()) {
+				on.update();
+			}
+			else {
+				estrela1.remove(p);
+				}
+		}
 
 		List<Tiro> tiros = player.getTiros();
 		for (int i = 0; i < tiros.size(); i++) {
@@ -154,7 +202,7 @@ public class Fase extends JPanel implements ActionListener {
 
 		@Override
 		public void keyReleased(KeyEvent e) {
-			player.keyRelease(e);
+			player.keyReleased(e);
 		}
 	}
 }

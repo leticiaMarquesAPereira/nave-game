@@ -5,116 +5,137 @@ import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.swing.ImageIcon;
 
 public class Player {
-	
-	private int x, y;
-	private int dx, dy;
-	private Image imagem;
-	private List <Tiro> tiros;
-	private boolean isVisivel;
-	
-	private int altura, largura;
-	
-	public Player() {
-		
-		this.x = 240;
-		this.y = 375;
-		isVisivel = true;
-		
-		tiros = new ArrayList<Tiro>();
-	}
-	
-	public void load() {
-		
-		ImageIcon referencia = new ImageIcon("res\\nave3.png");
-		imagem = referencia.getImage();
-		altura = imagem.getHeight(null);
-		largura = imagem.getWidth(null);
-	}
-	
-	public void update() {
-		
-		x += dx;
-		y += dy;
-	}
-	
-	public void tiroSimples() {
-		
-		this.tiros.add(new Tiro(x + (largura / 2), y));
-	}
-	
-	public void keyPressed(KeyEvent tecla) {
-		
-		int codigo = tecla.getKeyCode();
-		
-		if(codigo == KeyEvent.VK_A) {
-			tiroSimples();
-		}
-		if(codigo == KeyEvent.VK_UP) {
-			dy = -4;
-		}
-		if(codigo == KeyEvent.VK_DOWN) {
-			dy = 4;
-		}
-		if(codigo == KeyEvent.VK_RIGHT) {
-			dx = 4;
-		}
-		if(codigo == KeyEvent.VK_LEFT) {
-			dx = -4;
-		}
-	}
-	
-	public Rectangle getBounds() {
-		return new Rectangle (x, y, largura, altura);
-	}
-	
-	public void keyRelease(KeyEvent tecla) {
-		
-		int codigo = tecla.getKeyCode();
-		
-		if(codigo == KeyEvent.VK_UP) {
-			dy = 0;
-		}
-		if(codigo == KeyEvent.VK_DOWN) {
-			dy = 0;
-		}
-		if(codigo == KeyEvent.VK_RIGHT) {
-			dx = 0;
-		}
-		if(codigo == KeyEvent.VK_LEFT) {
-			dx = 0;
-		}
-	}
 
-	
-	
-	public boolean isVisivel() {
-		return isVisivel;
-	}
+    private int x, y;
+    private int dx, dy;
+    private Image imagem;
+    private List<Tiro> tiros;
+    private boolean isVisivel;
 
-	public void setVisivel(boolean isVisivel) {
-		this.isVisivel = isVisivel;
-	}
+    private int altura, largura;
 
-	public int getX() {
-		return x;
-	}
+    // Variáveis para controlar as teclas pressionadas
+    private boolean upPressed = false;
+    private boolean downPressed = false;
+    private boolean rightPressed = false;
+    private boolean leftPressed = false;
+    private boolean shootPressed = false;
 
-	public int getY() {
-		return y;
-	}
+    public Player() {
+        this.x = 240;
+        this.y = 375;
+        isVisivel = true;
 
-	public Image getImagem() {
-		return imagem;
-	}
+        tiros = new ArrayList<Tiro>();
+    }
 
-	public List<Tiro> getTiros() {
-		return tiros;
-	}
-	
-	
-	
+    public void load() {
+        ImageIcon referencia = new ImageIcon("res\\nave3.png");
+        imagem = referencia.getImage();
+        altura = imagem.getHeight(null);
+        largura = imagem.getWidth(null);
+    }
+
+    public void update() {
+        processMovement();// Atualiza com base nas teclas pressionadas
+        x += dx;
+        y += dy;
+    }
+
+    public void tiroSimples() {
+        this.tiros.add(new Tiro(x + (largura / 2), y));
+    }
+
+    //Método que processa o movimento com base no estado das teclas
+    private void processMovement() {
+        dx = 0; //Reinicializa dx e dy antes de processar
+        dy = 0;
+
+        if (upPressed) {
+            dy = -4;
+        }
+        if (downPressed) {
+            dy = 4;
+        }
+        if (rightPressed) {
+            dx = 4;
+        }
+        if (leftPressed) {
+            dx = -4;
+        }
+    }
+
+    // Método que trata quando uma tecla é pressionada
+    public void keyPressed(KeyEvent tecla) {
+        int codigo = tecla.getKeyCode();
+
+        if (codigo == KeyEvent.VK_UP) {
+            upPressed = true;
+        }
+        if (codigo == KeyEvent.VK_DOWN) {
+            downPressed = true;
+        }
+        if (codigo == KeyEvent.VK_RIGHT) {
+            rightPressed = true;
+        }
+        if (codigo == KeyEvent.VK_LEFT) {
+            leftPressed = true;
+        }
+        if (codigo == KeyEvent.VK_SPACE) {
+            shootPressed = true;
+            tiroSimples();  // Dispara imediatamente ao pressionar espaço
+        }
+    }
+
+    // Método que trata quando uma tecla é solta
+    public void keyReleased(KeyEvent tecla) {
+        int codigo = tecla.getKeyCode();
+
+        if (codigo == KeyEvent.VK_UP) {
+            upPressed = false;
+        }
+        if (codigo == KeyEvent.VK_DOWN) {
+            downPressed = false;
+        }
+        if (codigo == KeyEvent.VK_RIGHT) {
+            rightPressed = false;
+        }
+        if (codigo == KeyEvent.VK_LEFT) {
+            leftPressed = false;
+        }
+        if (codigo == KeyEvent.VK_SPACE) {
+            shootPressed = false;
+        }
+    }
+
+    public Rectangle getBounds() {
+        return new Rectangle(x, y, largura, altura);
+    }
+
+    public boolean isVisivel() {
+        return isVisivel;
+    }
+
+    public void setVisivel(boolean isVisivel) {
+        this.isVisivel = isVisivel;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public Image getImagem() {
+        return imagem;
+    }
+
+    public List<Tiro> getTiros() {
+        return tiros;
+    }
 }
