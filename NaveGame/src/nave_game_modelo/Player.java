@@ -1,6 +1,7 @@
 package nave_game_modelo;
 
 import java.awt.Image;
+import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,13 +14,15 @@ public class Player {
 	private int dx, dy;
 	private Image imagem;
 	private List <Tiro> tiros;
+	private boolean isVisivel;
 	
 	private int altura, largura;
 	
 	public Player() {
 		
-		this.x = 100;
-		this.y = 100;
+		this.x = 240;
+		this.y = 375;
+		isVisivel = true;
 		
 		tiros = new ArrayList<Tiro>();
 	}
@@ -51,17 +54,21 @@ public class Player {
 			tiroSimples();
 		}
 		if(codigo == KeyEvent.VK_UP) {
-			dy = -3;
+			dy = -4;
 		}
 		if(codigo == KeyEvent.VK_DOWN) {
-			dy = 3;
+			dy = 4;
 		}
 		if(codigo == KeyEvent.VK_RIGHT) {
-			dx = 3;
+			dx = 4;
 		}
 		if(codigo == KeyEvent.VK_LEFT) {
-			dx = -3;
+			dx = -4;
 		}
+	}
+	
+	public Rectangle getBounds() {
+		return new Rectangle (x, y, largura, altura);
 	}
 	
 	public void keyRelease(KeyEvent tecla) {
@@ -80,6 +87,16 @@ public class Player {
 		if(codigo == KeyEvent.VK_LEFT) {
 			dx = 0;
 		}
+	}
+
+	
+	
+	public boolean isVisivel() {
+		return isVisivel;
+	}
+
+	public void setVisivel(boolean isVisivel) {
+		this.isVisivel = isVisivel;
 	}
 
 	public int getX() {

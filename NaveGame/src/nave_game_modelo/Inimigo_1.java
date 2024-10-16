@@ -1,6 +1,7 @@
 package nave_game_modelo;
 
 import java.awt.Image;
+import java.awt.Rectangle;
 
 import javax.swing.ImageIcon;
 
@@ -37,6 +38,10 @@ public class Inimigo_1 {
 		//if(this.y > ALTURA) {
 		//	isVisivel = false;
 		//}
+	}
+	
+	public Rectangle getBounds() {
+		return new Rectangle (x, y, largura, altura);
 	}
 
 	public boolean isVisivel() {
