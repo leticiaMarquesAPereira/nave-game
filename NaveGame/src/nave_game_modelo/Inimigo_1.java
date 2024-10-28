@@ -12,7 +12,7 @@ public class Inimigo_1 {
 	private int largura, altura;
 	private boolean isVisivel;
 	
-	//private static final int ALTURA = 790;
+	private static final int ALTURA = 790;
 	private static int VELOCIDADE = 3;
 	
 	public Inimigo_1(int x, int y) {

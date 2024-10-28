@@ -5,6 +5,8 @@ import java.awt.Rectangle;
 
 import javax.swing.ImageIcon;
 
+import nave_game_sounds.EfeitosSonoros;
+
 public class Tiro {
 	
 	private Image imagem;
@@ -20,6 +22,7 @@ public class Tiro {
 		this.x = x;
 		this.y = y;
 		isVisivel = true;
+		somTiroSimples();
 	}
 	
 	public void load() {
@@ -44,6 +47,11 @@ public class Tiro {
 		return new Rectangle (x, y, largura, altura);
 	}
 
+	public void somTiroSimples() {
+		EfeitosSonoros a = new EfeitosSonoros();
+		a.tocarTiro();
+	}
+	
 	public boolean isVisivel() {
 		return isVisivel;
 	}

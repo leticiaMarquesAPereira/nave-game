@@ -15,6 +15,9 @@ import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
+import nave_game_sounds.EfeitosSonoros;
+import nave_game_modelo.PowerUps;
+
 public class Fase extends JPanel implements ActionListener {
 
 	private Image fundo;
@@ -22,6 +25,9 @@ public class Fase extends JPanel implements ActionListener {
 	private Timer timer;
 	private List<Inimigo_1> inimigo1;
 	private List<Estrela_1> estrela1;
+	private List<PowerUps> powerUpsVida;
+	private EfeitosSonoros musica;
+	private int vida2 = 0, powerUpVida;
 	private boolean emJogo;
 
 	public Fase() {
@@ -31,9 +37,15 @@ public class Fase extends JPanel implements ActionListener {
 
 		ImageIcon ref = new ImageIcon("res\\\\fundopreto.png");
 		fundo = ref.getImage();
+		
+		musica = new EfeitosSonoros();
+		SomFase();
 
 		player = new Player();
 		player.load();
+		
+		powerUpVida = 0;
+		powerUpsVida = new ArrayList<PowerUps>();
 
 		addKeyListener(new TecladoAdapter());
 
@@ -42,6 +54,7 @@ public class Fase extends JPanel implements ActionListener {
 		
 		inicializaInimigos();
 		inicializaEstrela();
+		
 		emJogo = true;
 	}
 
@@ -97,6 +110,12 @@ public class Fase extends JPanel implements ActionListener {
 				in.load();
 				graficos.drawImage(in.getImagem(), in.getX(), in.getY(), this);
 			}
+			int a = 5;
+			for (int j = 0; j < player.getVida(); j++) {
+				ImageIcon vida = new ImageIcon("res\\Vida.png");
+				graficos.drawImage(vida.getImage(), a, 20, null);
+				a += 30;
+			}
 		}
 		else {
 			
@@ -106,7 +125,12 @@ public class Fase extends JPanel implements ActionListener {
 		
 		g.dispose();
 	}
+	
+	public void SomFase() {
+		musica.tocarFase();
 
+	}
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 

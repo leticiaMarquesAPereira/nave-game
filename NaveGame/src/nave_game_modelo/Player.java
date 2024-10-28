@@ -2,18 +2,23 @@ package nave_game_modelo;
 
 import java.awt.Image;
 import java.awt.Rectangle;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.ImageIcon;
+import javax.swing.Timer;
 
-public class Player {
+public class Player extends Nave implements ActionListener{
 
     private int x, y;
     private int dx, dy;
     private Image imagem;
     private List<Tiro> tiros;
     private boolean isVisivel;
+    private Timer timer;
+    private int vida;
 
     private int altura, largura;
 
@@ -27,10 +32,18 @@ public class Player {
     public Player() {
         this.x = 240;
         this.y = 375;
+        
+        vida = 6;
         isVisivel = true;
+		timer = new Timer(7000, this);
+		timer.start();
 
         tiros = new ArrayList<Tiro>();
     }
+    
+    @Override
+	public void actionPerformed(ActionEvent e) {
+	}
 
     public void load() {
         ImageIcon referencia = new ImageIcon("res\\nave3.png");
@@ -38,11 +51,25 @@ public class Player {
         altura = imagem.getHeight(null);
         largura = imagem.getWidth(null);
     }
-
+    
+    //Limita a tela onde a nave pode ir
     public void update() {
-        processMovement();// Atualiza com base nas teclas pressionadas
+        processMovement();
         x += dx;
         y += dy;
+        
+        if (this.x < 6) {
+            x = 6;
+        }
+        if (this.x > 482) {
+            x = 482;
+        }
+        if (this.y < 6) {
+            y = 6;
+        }
+        if (this.y > 680) {
+            y = 680;
+        }
     }
 
     public void tiroSimples() {
@@ -138,4 +165,12 @@ public class Player {
     public List<Tiro> getTiros() {
         return tiros;
     }
+    
+    public int getVida() {
+		return vida;
+	}
+
+	public void setVida(int vida) {
+		this.vida = vida;
+	}
 }
