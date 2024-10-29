@@ -2,15 +2,25 @@ package nave_game_modelo;
 
 import java.awt.Image;
 import java.awt.Rectangle;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.ImageIcon;
+import javax.swing.Timer;
 
-public class Inimigo_1 {
+import nave_game_modelo.Explosao;
+
+public class Inimigo_1 extends Nave implements ActionListener{
 	
 	private Image imagem;
 	private int x, y;
 	private int largura, altura;
 	private boolean isVisivel;
+	private List<Explosao> explosoes;
+	
+	private Timer timer;
 	
 	private static final int ALTURA = 790;
 	private static int VELOCIDADE = 3;
@@ -20,6 +30,16 @@ public class Inimigo_1 {
 		this.x = x;
 		this.y = y;
 		isVisivel = true;
+		
+		explosoes = new ArrayList<Explosao>();
+		
+		timer = new Timer(1500, this);
+		timer.start();
+	}
+	
+	public void explosoes() {
+		this.explosoes.add(new Explosao(x + largura, y + altura / 2));
+
 	}
 	
 	public void load() {
@@ -70,6 +90,12 @@ public class Inimigo_1 {
 
 	public Image getImagem() {
 		return imagem;
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	

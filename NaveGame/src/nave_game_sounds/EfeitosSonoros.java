@@ -10,7 +10,7 @@ import javax.sound.sampled.FloatControl;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-public class EfeitosSonoros  extends JPanel {
+public class EfeitosSonoros extends JPanel {
 
 	public EfeitosSonoros() {
 		setDoubleBuffered(true);
@@ -49,16 +49,31 @@ public class EfeitosSonoros  extends JPanel {
 	
 	public void tocarSomExplosao() {
 		try {
+			URL soundFile = getClass().getResource("SomDano.wav");
+			AudioInputStream sound = AudioSystem.getAudioInputStream(soundFile);
+			DataLine.Info info = new DataLine.Info(Clip.class, sound.getFormat());
+			Clip clip = (Clip) AudioSystem.getLine(info);
+			clip.open(sound);
+			FloatControl volumeControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+	        volumeControl.setValue(-30.0f);
+			clip.start();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void tocarSomDano() {
+		try {
 			URL soundFile = getClass().getResource("SomExplosao.wav");
 			AudioInputStream sound = AudioSystem.getAudioInputStream(soundFile);
 			DataLine.Info info = new DataLine.Info(Clip.class, sound.getFormat());
 			Clip clip = (Clip) AudioSystem.getLine(info);
 			clip.open(sound);
 			FloatControl volumeControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-	        volumeControl.setValue(-20.0f);
+	        volumeControl.setValue(-30.0f);
 			clip.start();
 		} catch (Exception e) {
-			JOptionPane.showInputDialog(this, e);
+			e.printStackTrace();
 		}
 	}
 }

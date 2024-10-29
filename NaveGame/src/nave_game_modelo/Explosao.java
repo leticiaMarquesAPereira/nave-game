@@ -13,6 +13,7 @@ public class Explosao {
 	private int x, y;
 	private int largura, altura;
 	private boolean isVisivel;
+	private int tempoDeVisibilidade;
 
 	private static final int LARGURA = 6;
 	private static int VELOCIDADE = 2;
@@ -21,8 +22,9 @@ public class Explosao {
 		this.x = x;
 		this.y = y;
 		isVisivel = true;
+		this.tempoDeVisibilidade = 100;
 		SomExplosao();
-
+		load();
 	}
 
 	public void load() {
@@ -39,11 +41,11 @@ public class Explosao {
 	}
 
 	public void update() {
-		this.x -= VELOCIDADE;
-		if (this.x < LARGURA) {
-			isVisivel = false;
-		}
-
+	    if (tempoDeVisibilidade > 0) {
+	        tempoDeVisibilidade--;
+	    } else {
+	        isVisivel = false;
+	    }
 	}
 
 	public void SomExplosao() {

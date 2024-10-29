@@ -16,8 +16,6 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 
 import nave_game_sounds.EfeitosSonoros;
-import nave_game_modelo.Explosao;
-import nave_game_modelo.PowerUps;
 
 public class Fase extends JPanel implements ActionListener {
 
@@ -27,18 +25,16 @@ public class Fase extends JPanel implements ActionListener {
 	private List<Inimigo_1> inimigo1;
 	private List<Estrela_1> estrela1;
 	private List<Estrela_2> estrela2;
-	private List<PowerUps> powerUpsVida;
 	private List<Explosao> explosoes;
 	private EfeitosSonoros musica;
-	private int vida2 = 0, powerUpVida;
-	private boolean emJogo;
+	private boolean emJogo, emExplosao;
 
 	public Fase() {
 
 		setFocusable(true);
 		setDoubleBuffered(true);
 
-		ImageIcon ref = new ImageIcon("res\\\\fundopreto.png");
+		ImageIcon ref = new ImageIcon("res\\fundopreto.png");
 		fundo = ref.getImage();
 		
 		musica = new EfeitosSonoros();
@@ -46,19 +42,17 @@ public class Fase extends JPanel implements ActionListener {
 
 		player = new Player();
 		player.load();
-		
-		powerUpVida = 0;
-		powerUpsVida = new ArrayList<PowerUps>();
 
 		addKeyListener(new TecladoAdapter());
-
-		timer = new Timer(3, this);
-		timer.start();
 		
 		inicializaInimigos();
 		inicializaEstrela();
 		inicializaEstrela2();
 		inicializaExplosoes();
+		
+		waitForSeconds();
+		timer = new Timer(5, this);
+		timer.start();
 		
 		emJogo = true;
 	}
@@ -69,8 +63,8 @@ public class Fase extends JPanel implements ActionListener {
 		inimigo1 = new ArrayList<Inimigo_1>();
 		
 		for(int i = 0; i < coordenadas.length; i++) {
-			int x = (int)(Math.random() * +510 - 20);
-			int y = (int)(Math.random() * -5000 - 546);
+			int x = (int)(Math.random() * +480 - 20);
+			int y = (int)(Math.random() * -3000 - 546);
 			inimigo1.add(new Inimigo_1(x, y));
 		}
 	}
@@ -144,6 +138,17 @@ public class Fase extends JPanel implements ActionListener {
 				graficos.drawImage(vida.getImage(), a, 20, null);
 				a += 30;
 			}
+			for (int h = 0; h < explosoes.size(); h++) {
+				Explosao ln = explosoes.get(h);
+				ln.load();
+				graficos.drawImage(ln.getImagem(), ln.getX(), ln.getY(), this);
+			}
+			
+			for (int h = 0; h < explosoes.size(); h++) {
+				Explosao ln = explosoes.get(h);
+				ln.load();
+				graficos.drawImage(ln.getImagem(), ln.getX(), ln.getY(), this);
+			}
 		}
 		else {
 			
@@ -201,26 +206,63 @@ public class Fase extends JPanel implements ActionListener {
 				in.update();
 			}
 			else {
+				int inimigo, inimigo2;
+				inimigo = inimigo1.get(o).getX();
+				inimigo2 = inimigo1.get(o).getY();
 				inimigo1.remove(o);
+				explosoes.add(new Explosao(inimigo, inimigo2));
 			}
+		}
+		
+		for (int q = 0; q < explosoes.size(); q++) {
+			Explosao y = explosoes.get(q);
+			if (y.isVisivel()) {
+				y.update();
+			} else {
+				explosoes.remove(q);
+			}
+
 		}
 		checarColisoes();
 		repaint();
+	}
+	
+	public void waitForSeconds() {
+
+		timer = new Timer(1000, new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				for (int i = 0; i < explosoes.size(); i++) {
+					explosoes.get(i).setVisivel(false);
+				}
+			}
+		});
+		timer.start();
 	}
 	
 	public void checarColisoes() {
 		Rectangle formaNave = player.getBounds();
 		Rectangle formaInimigo1;
 		Rectangle formaTiro;
+		Rectangle formaChefao;
+		Rectangle formaTiroBoss;
 		
-		for(int i = 0; i < inimigo1.size(); i++) {
-			Inimigo_1 tempInimigo_1 = inimigo1.get(i);
-			formaInimigo1 = tempInimigo_1.getBounds();
-			if(formaNave.intersects(formaInimigo1)) {
-				player.setVisivel(false);
-				tempInimigo_1.setVisivel(false);
-				emJogo = false;
-			}
+		for (int i = 0; i < inimigo1.size(); i++) {
+	        Inimigo_1 tempInimigo_1 = inimigo1.get(i);
+	        formaInimigo1 = tempInimigo_1.getBounds();
+
+	        if (formaNave.intersects(formaInimigo1)) {
+	            player.setVida(player.getVida() - 1);
+	            musica.tocarSomDano();
+	            ImageIcon referencia2 = new ImageIcon("res\\explosion1.gif");
+	            
+	              emExplosao = true;
+	            tempInimigo_1.setVisivel(false);
+
+	            if (player.getVida() <= 0) {
+	                player.setVisivel(false);
+	                emJogo = false;
+	            }
+	        }
 		}
 		
 		List<Tiro> tiros = player.getTiros();
@@ -232,6 +274,8 @@ public class Fase extends JPanel implements ActionListener {
 				formaInimigo1 = tempInimigo_1.getBounds();
 				
 				if(formaTiro.intersects(formaInimigo1)) {
+					musica.tocarSomExplosao();
+					ImageIcon referencia2 = new ImageIcon("res\\explosion1.gif");
 					tempInimigo_1.setVisivel(false);
 					tempTiro.setVisivel(false);
 				}

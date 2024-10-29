@@ -33,9 +33,9 @@ public class Player extends Nave implements ActionListener{
         this.x = 240;
         this.y = 375;
         
-        vida = 6;
+        vida = 3;
         isVisivel = true;
-		timer = new Timer(7000, this);
+		timer = new Timer(10000, this);
 		timer.start();
 
         tiros = new ArrayList<Tiro>();
@@ -82,16 +82,16 @@ public class Player extends Nave implements ActionListener{
         dy = 0;
 
         if (upPressed) {
-            dy = -4;
+            dy = -5;
         }
         if (downPressed) {
-            dy = 4;
+            dy = 5;
         }
         if (rightPressed) {
-            dx = 4;
+            dx = 5;
         }
         if (leftPressed) {
-            dx = -4;
+            dx = -5;
         }
     }
 

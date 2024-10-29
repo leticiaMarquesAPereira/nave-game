@@ -14,7 +14,7 @@ public class Estrela_2 {
 	private boolean isVisivel;
 	
 	//private static final int ALTURA = 790;
-	private static int VELOCIDADE = 2;
+	private static int VELOCIDADE = 1;
 	
 	public Estrela_2(int x, int y) {
 		
