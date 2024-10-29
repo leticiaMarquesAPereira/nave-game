@@ -6,7 +6,7 @@ import java.util.Random;
 
 import javax.swing.ImageIcon;
 
-public class Estrela_1 {
+public class Estrela_2 {
 	
 	private Image imagem;
 	private int x, y;
@@ -14,9 +14,9 @@ public class Estrela_1 {
 	private boolean isVisivel;
 	
 	//private static final int ALTURA = 790;
-	private static int VELOCIDADE = 1;
+	private static int VELOCIDADE = 2;
 	
-	public Estrela_1(int x, int y) {
+	public Estrela_2(int x, int y) {
 		
 		this.x = x;
 		this.y = y;
@@ -25,7 +25,7 @@ public class Estrela_1 {
 	
 	public void load() {
 		
-		ImageIcon referencia = new ImageIcon("res\\estrelapequena2.png");
+		ImageIcon referencia = new ImageIcon("res\\estrelamedia2.png");
 		imagem = referencia.getImage();
 		
 		this.largura = imagem.getWidth(null);

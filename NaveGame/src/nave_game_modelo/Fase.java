@@ -16,6 +16,7 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 
 import nave_game_sounds.EfeitosSonoros;
+import nave_game_modelo.Explosao;
 import nave_game_modelo.PowerUps;
 
 public class Fase extends JPanel implements ActionListener {
@@ -25,7 +26,9 @@ public class Fase extends JPanel implements ActionListener {
 	private Timer timer;
 	private List<Inimigo_1> inimigo1;
 	private List<Estrela_1> estrela1;
+	private List<Estrela_2> estrela2;
 	private List<PowerUps> powerUpsVida;
+	private List<Explosao> explosoes;
 	private EfeitosSonoros musica;
 	private int vida2 = 0, powerUpVida;
 	private boolean emJogo;
@@ -54,13 +57,15 @@ public class Fase extends JPanel implements ActionListener {
 		
 		inicializaInimigos();
 		inicializaEstrela();
+		inicializaEstrela2();
+		inicializaExplosoes();
 		
 		emJogo = true;
 	}
 
 	public void inicializaInimigos() {
 		
-		int coordenadas[] = new int[20];
+		int coordenadas[] = new int[30];
 		inimigo1 = new ArrayList<Inimigo_1>();
 		
 		for(int i = 0; i < coordenadas.length; i++) {
@@ -72,7 +77,7 @@ public class Fase extends JPanel implements ActionListener {
 	
 	public void inicializaEstrela() {
 		
-		int coordenadas[] = new int[300];
+		int coordenadas[] = new int[500];
 		estrela1 = new ArrayList<Estrela_1>();
 		
 		for(int i = 0; i < coordenadas.length; i++) {
@@ -80,6 +85,23 @@ public class Fase extends JPanel implements ActionListener {
 			int y = (int)(Math.random() * -9000 + 400);
 			estrela1.add(new Estrela_1(x, y));
 		}
+	}
+	
+	public void inicializaEstrela2() {
+		
+		int coordenadas[] = new int[150];
+		estrela2 = new ArrayList<Estrela_2>();
+		
+		for(int i = 0; i < coordenadas.length; i++) {
+			int x = (int)(Math.random() * +510 - 160);
+			int y = (int)(Math.random() * -9000 + 400);
+			estrela2.add(new Estrela_2(x, y));
+		}
+	}
+	
+	public void inicializaExplosoes() {
+		explosoes = new ArrayList<Explosao>();
+
 	}
 	
 	public void paint(Graphics g) {
@@ -94,6 +116,12 @@ public class Fase extends JPanel implements ActionListener {
 				Estrela_1 b = estrela1.get(p);
 				b.load();
 				graficos.drawImage(b.getImagem(), b.getX(), b.getY(), this);
+			}
+			
+			for (int a = 0; a < estrela2.size(); a++) {
+				Estrela_2 c = estrela2.get(a);
+				c.load();
+				graficos.drawImage(c.getImagem(), c.getX(), c.getY(), this);
 			}
 			
 			graficos.drawImage(player.getImagem(), player.getX(), player.getY(), this);
@@ -143,6 +171,16 @@ public class Fase extends JPanel implements ActionListener {
 			}
 			else {
 				estrela1.remove(p);
+				}
+		}
+		
+		for(int r = 0; r < estrela2.size(); r++) {
+			Estrela_2 on = estrela2.get(r);
+			if(on.isVisivel()) {
+				on.update();
+			}
+			else {
+				estrela2.remove(r);
 				}
 		}
 
